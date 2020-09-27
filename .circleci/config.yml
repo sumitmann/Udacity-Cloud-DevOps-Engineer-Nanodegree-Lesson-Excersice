@@ -4,7 +4,7 @@ workflows:
   version: 1
   our_workflow:
     jobs:
-      - reusable_command
+      - fail_job
 jobs:
   fail_job:
     docker:
