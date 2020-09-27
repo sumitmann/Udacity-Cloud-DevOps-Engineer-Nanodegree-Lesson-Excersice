@@ -1,17 +1,23 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
+commands:
+  sayhello:
+    description: "A very simple command for demonstration purposes"
+    parameters:
+      to:
+        type: string
+        default: "Hello World"
+    steps:
+      - run: echo << parameters.to >>
 workflows:
   version: 1
   our_workflow:
     jobs:
-      - fail_job
+      - reusable_command
 jobs:
-  fail_job:
+  reusable_command:
     docker:
       - image: circleci/node:13.8.0
     steps:
-      - run: return 1
-      - run:
-          name: Upload Failed Tests
-          command: echo 'Something Went Wrong'
-          when: on_fail
+      - sayhello:
+          to: $CIRCLE_WORKFLOW_ID
